@@ -61,8 +61,8 @@ int main(int argc, char **argv)
     int tot_images = 0;
     for (seq = 0; seq<num_seq; seq++)
     {
-        cout << "Loading images for sequence " << seq << "...";
-        LoadImages(string(argv[(2*seq)+3]) + "/mav0/cam0/data", string(argv[(2*seq)+4]), vstrImageFilenames[seq], vTimestampsCam[seq]);
+        cout << "Loading images for sequence " << seq << "..."<<endl;
+        LoadImages(string(argv[(2*seq)+3]) , string(argv[(2*seq)+4]), vstrImageFilenames[seq], vTimestampsCam[seq]);
         cout << "LOADED!" << endl;
 
         nImages[seq] = vstrImageFilenames[seq].size();
@@ -191,13 +191,13 @@ int main(int argc, char **argv)
     {
         const string kf_file =  "kf_" + string(argv[argc-1]) + ".txt";
         const string f_file =  "f_" + string(argv[argc-1]) + ".txt";
-        SLAM.SaveTrajectoryEuRoC(f_file);
-        SLAM.SaveKeyFrameTrajectoryEuRoC(kf_file);
+        SLAM.SaveTrajectoryAirSimTum(f_file);
+        SLAM.SaveKeyFrameTrajectoryAirSimTum(kf_file);
     }
     else
     {
-        SLAM.SaveTrajectoryEuRoC("CameraTrajectory.txt");
-        SLAM.SaveKeyFrameTrajectoryEuRoC("KeyFrameTrajectory.txt");
+        SLAM.SaveTrajectoryAirSimTum("CameraTrajectory.txt");
+        SLAM.SaveKeyFrameTrajectoryAirSimTum("KeyFrameTrajectory.txt");
     }
 
     return 0;
@@ -218,10 +218,10 @@ void LoadImages(const string &strImagePath, const string &strPathTimes,
         {
             stringstream ss;
             ss << s;
-            vstrImages.push_back(strImagePath + "/" + ss.str() + ".png");
+            vstrImages.push_back(strImagePath + "/" + ss.str().substr(0, ss.str().size()-1) + ".png");
             double t;
             ss >> t;
-            vTimeStamps.push_back(t*1e-9);
+            vTimeStamps.push_back(t*1e-3);
 
         }
     }
