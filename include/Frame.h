@@ -54,7 +54,8 @@ class Frame
 {
 public:
     Frame();
-
+    //brz
+    static int FrameIndex;
     // Copy constructor.
     Frame(const Frame &frame);
 

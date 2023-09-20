@@ -50,6 +50,8 @@ Frame::Frame(): mpcpi(NULL), mpImuPreintegrated(NULL), mpPrevFrame(NULL), mpImuP
 #endif
 }
 
+//brz
+int Frame::FrameIndex=0;
 
 //Copy Constructor
 Frame::Frame(const Frame &frame)
@@ -415,6 +417,7 @@ void Frame::AssignFeaturesToGrid()
     }
 }
 
+
 void Frame::ExtractORB(int flag, const cv::Mat &im, const int x0, const int x1)
 {
     vector<int> vLapping = {x0,x1};
@@ -422,6 +425,8 @@ void Frame::ExtractORB(int flag, const cv::Mat &im, const int x0, const int x1)
         monoLeft = (*mpORBextractorLeft)(im,cv::Mat(),mvKeys,mDescriptors,vLapping);
     else
         monoRight = (*mpORBextractorRight)(im,cv::Mat(),mvKeysRight,mDescriptorsRight,vLapping);
+    //brz
+    // cout<<"Image Index:"<<mnId++<<"  Feature Num:"<<mvKeys.size()<<endl;
 }
 
 bool Frame::isSet() const {
