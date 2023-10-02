@@ -22,6 +22,13 @@
 #include <pangolin/pangolin.h>
 #include <mutex>
 
+#include <pcl/point_types.h>
+#include <pcl/point_cloud.h>
+#include <pcl/io/pcd_io.h>
+
+
+extern int pre_num = 0;
+
 namespace ORB_SLAM3
 {
 
@@ -150,27 +157,76 @@ void MapDrawer::DrawMapPoints()
     glBegin(GL_POINTS);
     glColor3f(0.0,0.0,0.0);
 
+
+    // //brz 大地图保存
+    // for(size_t i=0, iend=vpMPs.size(); i<iend;i++)
+    // {
+    //     if(vpMPs[i]->isBad() || spRefMPs.count(vpMPs[i]))
+    //         continue;
+    //     Eigen::Matrix<float,3,1> pos = vpMPs[i]->GetWorldPos();
+    //     glVertex3f(pos(0),pos(1),pos(2));
+    // }
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_saved(new pcl::PointCloud<pcl::PointXYZ>());
     for(size_t i=0, iend=vpMPs.size(); i<iend;i++)
     {
         if(vpMPs[i]->isBad() || spRefMPs.count(vpMPs[i]))
             continue;
         Eigen::Matrix<float,3,1> pos = vpMPs[i]->GetWorldPos();
         glVertex3f(pos(0),pos(1),pos(2));
+            
+        //modified by Awei
+        pcl::PointXYZ p;
+        p.x = pos(0);
+        p.y = pos(1);
+        p.z = pos(2);
+        cloud_saved->points.push_back(p);
     }
+    if (cloud_saved->points.size() > pre_num)
+    {
+        pcl::io::savePCDFileBinary("map.pcd", *cloud_saved);
+        pre_num = cloud_saved->points.size();
+    }
+
+
+
+
+
+
+
     glEnd();
 
     glPointSize(mPointSize);
     glBegin(GL_POINTS);
     glColor3f(1.0,0.0,0.0);
 
+    //brz 增加保存点云地图功能
+    // for(set<MapPoint*>::iterator sit=spRefMPs.begin(), send=spRefMPs.end(); sit!=send; sit++)
+    // {
+    //     if((*sit)->isBad())
+    //         continue;
+    //     Eigen::Matrix<float,3,1> pos = (*sit)->GetWorldPos();
+    //     glVertex3f(pos(0),pos(1),pos(2));
+    // }
+
+    // pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_saved(new pcl::PointCloud<pcl::PointXYZ>());
     for(set<MapPoint*>::iterator sit=spRefMPs.begin(), send=spRefMPs.end(); sit!=send; sit++)
     {
         if((*sit)->isBad())
             continue;
         Eigen::Matrix<float,3,1> pos = (*sit)->GetWorldPos();
         glVertex3f(pos(0),pos(1),pos(2));
-
+    
+        //modified by Awei
+        pcl::PointXYZ p;
+        p.x = pos(0);
+        p.y = pos(1);
+        p.z = pos(2);
+        cloud_saved->points.push_back(p);
     }
+    if (cloud_saved->points.size())
+        pcl::io::savePCDFileBinary("map.pcd", *cloud_saved);
+
+
 
     glEnd();
 }

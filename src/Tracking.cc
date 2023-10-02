@@ -1794,7 +1794,7 @@ void Tracking::ResetFrameIMU()
 void Tracking::Track()
 {
     //brz
-    cout<<"img ID:"<<mCurrentFrame.mnId<<"     ";
+    // cout<<"img ID:"<<mCurrentFrame.mnId<<"     ";
     if (bStepByStep)
     {
         std::cout << "Tracking: Waiting to the next step" << std::endl;
@@ -1952,19 +1952,19 @@ void Tracking::Track()
 
                 if((!mbVelocity && !pCurrentMap->isImuInitialized()) || mCurrentFrame.mnId<mnLastRelocFrameId+2)
                 {
-                    cout<<"跟踪参考关键帧：";
+                  
                     Verbose::PrintMess("TRACK: Track with respect to the reference KF ", Verbose::VERBOSITY_DEBUG);
                     bOK = TrackReferenceKeyFrame();
                     //brz:
-                    if(bOK)  cout<<":OK"<<endl; else  cout<<":false "<<endl;
+                    if(!bOK)   cout<<"跟踪参考关键帧：false "<<endl;
                 }
                 else    //跟踪恒速模型 或者 参考关键帧
                 {
-                    cout<<"跟踪恒速模型:";
+                   
                     Verbose::PrintMess("TRACK: Track with motion model", Verbose::VERBOSITY_DEBUG);
                     bOK = TrackWithMotionModel();
                     //brz:
-                    if(bOK) cout<<":OK"<<endl; else  cout<<":false "<<endl;
+                    if(!bOK)  cout<<"跟踪恒速模型:false "<<endl;
                     
                     if(!bOK)
                     {
@@ -1980,7 +1980,7 @@ void Tracking::Track()
 
                 if (!bOK)//跟丢了  设置 mState = LOST 或 RECENTLY_LOST
                 {
-                    cout<<"恒速与参考关键帧跟丟了"<<endl;
+                    cout<<"imgID:"<<mCurrentFrame.mnId<<"恒速与参考关键帧跟丟了"<<endl;
                     if ( mCurrentFrame.mnId<=(mnLastRelocFrameId+mnFramesToResetIMU) &&
                          (mSensor==System::IMU_MONOCULAR || mSensor==System::IMU_STEREO || mSensor == System::IMU_RGBD))
                     {
@@ -2171,13 +2171,11 @@ void Tracking::Track()
             if(bOK)
             {
                 //brz
-                cout<<"bOK,TrackLocalMap :";
+                // cout<<"bOK,TrackLocalMap :";
                 bOK = TrackLocalMap();
                 //brz
-                if(bOK)
-                    cout<<"track ok"<<endl;
-                else
-                    cout<<"track fail"<<endl;
+                if(!bOK)
+                    cout<<"track local map fail"<<endl;
 
 
             }
@@ -2939,10 +2937,20 @@ bool Tracking::TrackWithMotionModel()
     // Project points seen in previous frame
     int th;
 
+    
     if(mSensor==System::STEREO)
         th=7;
     else
         th=15;
+
+    //brz 让搜寻范围大一点
+    if(mSensor==System::MONOCULAR)
+        th=30;
+    // if(mSensor==System::STEREO)
+    //     th=10;
+    // else
+    //     th=20;
+
 
     int nmatches = matcher.SearchByProjection(mCurrentFrame,mLastFrame,th,mSensor==System::MONOCULAR || mSensor==System::IMU_MONOCULAR);
 
@@ -3008,7 +3016,7 @@ bool Tracking::TrackWithMotionModel()
         return true;
     else
     {
-        cout<<"恒速跟踪 nmatchesMap:"<<nmatchesMap<<endl;
+        // cout<<"恒速跟踪 nmatchesMap:"<<nmatchesMap<<endl;
         return nmatchesMap>=10;
     }
 }

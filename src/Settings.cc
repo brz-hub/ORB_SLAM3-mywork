@@ -541,7 +541,7 @@ namespace ORB_SLAM3 {
             output << " " << settings.originalCalib1_->getParameter(i);
         }
         output << " ]" << endl;
-
+      
         if(!settings.vPinHoleDistorsion1_.empty()){
             output << "\t-Camera 1 distortion parameters: [ ";
             for(float d : settings.vPinHoleDistorsion1_){
@@ -549,29 +549,32 @@ namespace ORB_SLAM3 {
             }
             output << " ]" << endl;
         }
+  
+        //brz
+        //因为在stereo kitti代码运行时，在这里会“段错误（核心转存储），程序结束运行，而这段代码单纯的output，不涉及其他，所以干脆注释了
+        // if(settings.sensor_ == System::STEREO || settings.sensor_ == System::IMU_STEREO){
+        //     output << "\t-Camera 2 parameters (";
+        //     if(settings.cameraType_ == Settings::PinHole || settings.cameraType_ ==  Settings::Rectified){
+        //         output << "Pinhole";
+        //     }
+        //     else{
+        //         output << "Kannala-Brandt";
+        //     }
+        //     output << "" << ": [";
+        //     for(size_t i = 0; i < settings.originalCalib2_->size(); i++){
+        //         output << " " << settings.originalCalib2_->getParameter(i);
+        //     }
+        //     output << " ]" << endl;
 
-        if(settings.sensor_ == System::STEREO || settings.sensor_ == System::IMU_STEREO){
-            output << "\t-Camera 2 parameters (";
-            if(settings.cameraType_ == Settings::PinHole || settings.cameraType_ ==  Settings::Rectified){
-                output << "Pinhole";
-            }
-            else{
-                output << "Kannala-Brandt";
-            }
-            output << "" << ": [";
-            for(size_t i = 0; i < settings.originalCalib2_->size(); i++){
-                output << " " << settings.originalCalib2_->getParameter(i);
-            }
-            output << " ]" << endl;
-
-            if(!settings.vPinHoleDistorsion2_.empty()){
-                output << "\t-Camera 1 distortion parameters: [ ";
-                for(float d : settings.vPinHoleDistorsion2_){
-                    output << " " << d;
-                }
-                output << " ]" << endl;
-            }
-        }
+        //     if(!settings.vPinHoleDistorsion2_.empty()){
+        //         output << "\t-Camera 1 distortion parameters: [ ";
+        //         for(float d : settings.vPinHoleDistorsion2_){
+        //             output << " " << d;
+        //         }
+        //         output << " ]" << endl;
+        //     }
+        // }
+    
 
         output << "\t-Original image size: [ " << settings.originalImSize_.width << " , " << settings.originalImSize_.height << " ]" << endl;
         output << "\t-Current image size: [ " << settings.newImSize_.width << " , " << settings.newImSize_.height << " ]" << endl;

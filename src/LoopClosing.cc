@@ -90,15 +90,20 @@ void LoopClosing::SetLocalMapper(LocalMapping *pLocalMapper)
 void LoopClosing::Run()
 {
     mbFinished =false;
+ 
+    //brz    关闭回环检测
+    bool bNoLoop=true;
 
     while(1)
     {
+        
 
         //NEW LOOP AND MERGE DETECTION ALGORITHM
         //----------------------------
+        if( ! bNoLoop )
+        {
 
-
-        if(CheckNewKeyFrames())
+            if(CheckNewKeyFrames())
         {
             if(mpLastCurrentKF)
             {
@@ -295,7 +300,7 @@ void LoopClosing::Run()
             }
             mpLastCurrentKF = mpCurrentKF;
         }
-
+        }
         ResetIfRequested();
 
         if(CheckFinish()){

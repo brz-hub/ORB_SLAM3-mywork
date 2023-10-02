@@ -154,20 +154,20 @@ int main(int argc, char **argv)
 
             vTimesTrack[ni]=ttrack;
 
-            // Wait to load the next frame
-            double T=0;
-            if(ni<nImages[seq]-1)
-                T = vTimestampsCam[seq][ni+1]-tframe;
-            else if(ni>0)
-                T = tframe-vTimestampsCam[seq][ni-1];
+            // // Wait to load the next frame
+            // double T=0;
+            // if(ni<nImages[seq]-1)
+            //     T = vTimestampsCam[seq][ni+1]-tframe;
+            // else if(ni>0)
+            //     T = tframe-vTimestampsCam[seq][ni-1];
 
-            //std::cout << "T: " << T << std::endl;
-            //std::cout << "ttrack: " << ttrack << std::endl;
+            // //std::cout << "T: " << T << std::endl;
+            // //std::cout << "ttrack: " << ttrack << std::endl;
 
-            if(ttrack<T) {
-                //std::cout << "usleep: " << (dT-ttrack) << std::endl;
-                usleep((T-ttrack)*1e6); // 1e6
-            }
+            // if(ttrack<T) {
+            //     //std::cout << "usleep: " << (dT-ttrack) << std::endl;
+            //     usleep((T-ttrack)*1e6); // 1e6
+            // }
         }
 
         if(seq < num_seq - 1)

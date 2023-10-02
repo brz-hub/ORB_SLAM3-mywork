@@ -122,6 +122,7 @@ int main(int argc, char **argv)
 
         vTimesTrack[ni]=ttrack;
 
+        //brz 别等了，跑完拉倒
         // Wait to load the next frame
         double T=0;
         if(ni<nImages-1)
@@ -148,6 +149,7 @@ int main(int argc, char **argv)
     cout << "mean tracking time: " << totaltime/nImages << endl;
 
     // Save camera trajectory
+    SLAM.SaveTrajectoryAirSimTum("Mono_Kitti_traj.txt");
     SLAM.SaveKeyFrameTrajectoryTUM("KeyFrameTrajectory.txt");    
 
     return 0;

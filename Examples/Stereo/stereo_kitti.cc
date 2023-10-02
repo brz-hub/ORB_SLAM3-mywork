@@ -38,17 +38,27 @@ int main(int argc, char **argv)
         cerr << endl << "Usage: ./stereo_kitti path_to_vocabulary path_to_settings path_to_sequence" << endl;
         return 1;
     }
+    else
+    {
+        cout<<"fuckkkkkkkkkkkkkkkkkkkkkkkkkk"<<endl;
+    }
+        cout<<"fuckkkkkkkkkkkkkkkkkkkkkkkkkk angine "<<endl;
+
+       
+
 
     // Retrieve paths to images
     vector<string> vstrImageLeft;
     vector<string> vstrImageRight;
     vector<double> vTimestamps;
     LoadImages(string(argv[3]), vstrImageLeft, vstrImageRight, vTimestamps);
+    cout<<"images loaded :"<<argv[3]<<endl;
 
     const int nImages = vstrImageLeft.size();
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
     ORB_SLAM3::System SLAM(argv[1],argv[2],ORB_SLAM3::System::STEREO,true);
+    cout<<"stereo setde fukkkkkkkkkkkkkkkkkkkkkkk"<<endl;
     float imageScale = SLAM.GetImageScale();
 
     // Vector for tracking time statistics
@@ -126,15 +136,16 @@ int main(int argc, char **argv)
 
         vTimesTrack[ni]=ttrack;
 
-        // Wait to load the next frame
-        double T=0;
-        if(ni<nImages-1)
-            T = vTimestamps[ni+1]-tframe;
-        else if(ni>0)
-            T = tframe-vTimestamps[ni-1];
+        //brz 别等了，跑完拉倒
+        // // Wait to load the next frame
+        // double T=0;
+        // if(ni<nImages-1)
+        //     T = vTimestamps[ni+1]-tframe;
+        // else if(ni>0)
+        //     T = tframe-vTimestamps[ni-1];
 
-        if(ttrack<T)
-            usleep((T-ttrack)*1e6);
+        // if(ttrack<T)
+        //     usleep((T-ttrack)*1e6);
     }
 
     // Stop all threads
@@ -152,7 +163,8 @@ int main(int argc, char **argv)
     cout << "mean tracking time: " << totaltime/nImages << endl;
 
     // Save camera trajectory
-    SLAM.SaveTrajectoryKITTI("CameraTrajectory.txt");
+    SLAM.SaveTrajectoryTUM("./rst/f_stereo_kitti07_tum.txt");
+    // SLAM.SaveTrajectoryKITTI("stere_kitti_CameraTrajectory.txt");
 
     return 0;
 }
