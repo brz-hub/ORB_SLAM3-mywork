@@ -30,6 +30,17 @@ export imgpath=/home/brz/Documents/Dataset/airsim/0927kitti
 export imgpath=/home/brz/Documents/Dataset/airsim/0926small
 ./Examples/MyWork/airsim_mono ./Vocabulary/ORBvoc.txt ./Examples/MyWork/AirSim640.yaml "$imgpath"/rgb "$imgpath"/AirSim_TimeStamps.txt 0922-airsim   
 
+export imgpath=/home/brz/Documents/Dataset/airsim/1002
+./Examples/MyWork/airsim_mono ./Vocabulary/ORBvoc.txt ./Examples/MyWork/AirSim.yaml "$imgpath"/rgb "$imgpath"/AirSim_TimeStamps.txt 1002   
 
-evo_traj tum f_1001.txt --ref=/home/brz/Documents/Dataset/airsim/1001/ground_truth_TUM.txt -p -s --correct_scale -a --align
 
+
+
+evo_traj tum f_1005.txt --ref=/home/brz/Documents/Dataset/airsim/1001/ground_truth_TUM.txt -p -s --correct_scale -a --align
+
+export imgpath=/home/brz/Documents/Dataset/airsim/1005-2
+./Examples/MyWork/airsim_mono ./Vocabulary/ORBvoc.txt ./Examples/MyWork/AirSim.yaml "$imgpath"/rbg "$imgpath"/AirSim_TimeStamps.txt 1005-2-SimPNG
+evo_traj tum f_1005-2-SimPNG.txt --ref=/home/brz/Documents/Dataset/airsim/1005-2/ground_truth_TUM.txt -p -s --correct_scale -a --align
+
+
+/home/brz/Documents/Dataset/airsim/1023/ground_truth_TUM.txt 
