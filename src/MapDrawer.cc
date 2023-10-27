@@ -186,6 +186,7 @@ void MapDrawer::DrawMapPoints()
         pcl::io::savePCDFileBinary("map.pcd", *cloud_saved);
         pre_num = cloud_saved->points.size();
     }
+    /////////////以上为复制修改的//////////////////////////////////
 
 
 
@@ -226,7 +227,7 @@ void MapDrawer::DrawMapPoints()
     if (cloud_saved->points.size())
         pcl::io::savePCDFileBinary("map.pcd", *cloud_saved);
 
-
+    /////////////////以上为修改的/////////////////////////
 
     glEnd();
 }
